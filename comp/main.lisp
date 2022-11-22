@@ -32,22 +32,12 @@
         '(#\< #\< #\> #\> #\> #\> #\< #\< #\>)
         '(#\> #\> #\< #\> #\< #\< #\< #\> #\>)))
 
-    (setq test '(-1 4 -1 4))
-    (setq pos1
-        (make-2d_pos
-            :x 0
-            :y 0
-        ))
-    (setq pos
-        (make-2d_pos
-            :x 1
-            :y 1
-        ))
     (setq comps
         (make-comps_struct
             :comp_hor comp_hor
             :comp_ver comp_ver
         ))
-    (write-line (write-to-string (solveSudoku grid comps)))
+    (setq grid (result-grid (solveSudoku grid comps)))
+    (printSudoku grid comps)
 )
 (main)

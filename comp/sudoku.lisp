@@ -1,3 +1,56 @@
+;; printar o resultado encontrado
+(defun printRow (row comps)
+    (defun sub_fun1 (r c)
+        (setq head (car r))
+        (setq body (cdr r))
+        (write " ")
+        (write (write-to-string head))
+        (printRow (cdr r) c)
+    )
+    (defun sub_fun2 (r1 c1)
+        (write " ")
+        (write (write-to-string (car r1)))
+        (write " ")
+        (write (write-to-string (car c1)))
+        (printRow (cdr r1) (cdr c1))
+    )
+    (cond
+        ((null row) (write-line "")) 
+        ((null comps) (sub_fun1 row comps))
+        (t (sub_fun2 row comps))
+    )
+)
+(defun printSudoku (grid comps)
+    (setq cvh (car (comps_struct-comp_ver comps)))
+    (setq cvb (cdr (comps_struct-comp_ver comps)))
+    (setq crh (car (comps_struct-comp_hor comps)))
+    (setq crb (cdr (comps_struct-comp_hor comps)))
+    (defun printCompVer (cvh1)
+        (defun aux (cvh2)
+            (write (write-to-string (car cvh1)))
+            (write "       ")
+            (printCompVer (cdr cvh2))
+        )
+        (cond
+            ((null cvh1) (write-line ""))
+            (t (aux cvh1))
+        )
+    )
+    (printRow (car grid) crh)
+    (printCompVer cvh)
+    (setq to_send
+        (make-comps_struct
+            :comp_hor crb
+            :comp_ver cvb
+        ))
+    (cond
+        ((null grid) (write ""))
+        ((null comps) (write ""))
+        (t (printSudoku (cdr grid) to_send))
+    )
+    
+)
+
 ;; estrutura de dados para comparacoes
 (defstruct comps_struct
     comp_hor
